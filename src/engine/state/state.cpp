@@ -1,6 +1,8 @@
 #include "state.hpp"
 
 #include "engine.hpp"
+#include "resource.hpp"
+#include "renderer/renderer.hpp"
 
 State::State() {
     // Do nothing because engine is not set yet
@@ -18,13 +20,11 @@ void State::base_init() {
 }
 
 void State::init() {
-    // NOTE: this is all testing code
-    // engine->getResources()->loadTexture("test", "res/test.png");
-    // unsigned int id = addEntity();
-    // positions.addComponent(id, {0, 0});
-    // entities.setEntityComponent(id, COMP_POS);
-    // sprites.addComponent(id, {150, 150, 0, 0, 0, 0, 0, 0, "test"});
-    // entities.setEntityComponent(id, COMP_SPRITE);
+    // Do nothing in base class
+}
+
+void State::drawTexture(DrawData& data) {
+    draw_objects.push_back(data);
 }
 
 void State::setEngineRef(Reference<Engine> ref) {
@@ -39,6 +39,17 @@ void State::update(float delta) {
     for (System * system : systems) {
         system->update(delta);
     }
+    // TODO: (Ian) Only render the scene after a certain delta time has passed
+    // Render the scene
+    std::sort(draw_objects.begin(), draw_objects.end());
+    for (const DrawData& obj : draw_objects) {
+        if (engine->getResources()->getTexture(obj.name)) {
+            engine->getRenderer()->drawTexture({obj.x, obj.y}, obj.w, obj.h, {obj.src_x, obj.src_y}, obj.src_w, obj.src_h, obj.name);
+        } else {
+            engine->getRenderer()->drawRect({obj.x, obj.y}, obj.w, obj.h, {1.f, 0.f, 1.f});
+        }
+    }
+    draw_objects.clear();
 }
 
 System * State::addSystem(System * system) {

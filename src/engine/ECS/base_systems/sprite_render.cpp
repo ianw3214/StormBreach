@@ -1,6 +1,7 @@
 #include "sprite_render.hpp"
 
 #include "engine.hpp"
+#include "resource.hpp"
 #include "renderer/renderer.hpp"
 
 #include "state/state.hpp"
@@ -35,6 +36,18 @@ void SpriteRenderSystem::update(float delta) {
                 break;
             }
         }
-        engine->getRenderer()->drawTexture({x, y}, sprite.w, sprite.h, sprite.name);
+        // engine->getRenderer()->drawTexture({x, y}, sprite.w, sprite.h, sprite.name);
+        DrawData data;
+        data.z = pos.z;
+        data.x = x;
+        data.y = y;
+        data.w = sprite.w;
+        data.h = sprite.h;
+        data.src_x = 0;
+        data.src_y = 0;
+        data.src_w = engine->getResources()->getTexture(sprite.name)->getWidth();
+        data.src_h = engine->getResources()->getTexture(sprite.name)->getHeight();
+        data.name = sprite.name;
+        state->drawTexture(data);
     }
 }

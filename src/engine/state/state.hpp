@@ -9,6 +9,25 @@ constexpr int MAX_ENTITIES = 100;
 
 #include "ECS/ECS.hpp"
 
+struct DrawData {
+    int z;
+    int x;
+    int y;
+    int w;
+    int h;
+    int src_x;
+    int src_y;
+    int src_w;
+    int src_h;
+    std::string name;
+    DrawData() {}
+    DrawData(int z, int x, int y, int w, int h, int src_x, int src_y, int src_w, int src_h, const std::string& name) :
+        z(z), x(x), y(y), w(w), h(h), src_x(src_x), src_y(src_y), src_w(src_w), src_h(src_h), name(name) {}
+    bool operator<(const DrawData& other) {
+        return z < other.z;
+    }
+};
+
 class Engine;
 class State {
 public:
@@ -20,6 +39,8 @@ public:
     void base_init();
     // Callback for subclasses to customize initialization
     virtual void init();
+
+    void drawTexture(DrawData& data);
 
     void onEvent(SDL_Event& e);
     void update(float delta);
@@ -35,6 +56,9 @@ public:
     Reference<Engine> getEngineRef();
 protected:
     Reference<Engine> engine;
+
+    // Deffered rendering
+    std::vector<DrawData> draw_objects;
 
     // ECS things
     std::vector<System*> systems;

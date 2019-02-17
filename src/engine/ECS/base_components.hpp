@@ -20,13 +20,9 @@ struct Sprite {
     int h;
     int x_offset;
     int y_offset;
-    int source_x;
-    int source_y;
-    int source_w;
-    int source_h;
     std::string name;
-    Sprite(int w=0, int h=0, int x_o=0, int y_o=0, int s_x=0, int s_y=0, int s_w=0, int s_h=0, const std::string& n="") :
-        w(w), h(h), x_offset(x_o), y_offset(y_o), source_x(s_x), source_y(s_y), source_w(s_w), source_h(s_h), name(n) {}
+    Sprite(int w=0, int h=0, int x_o=0, int y_o=0, const std::string& n="") :
+        w(w), h(h), x_offset(x_o), y_offset(y_o), name(n) {}
 };
 
 #define CAM_IDLE    0

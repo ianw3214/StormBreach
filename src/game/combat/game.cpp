@@ -44,7 +44,7 @@ void Game::init() {
         unsigned int id = addEntity();
         positions.addComponent(id, Position(200, 200, true, 0.5f));
         entities.setEntityComponent(id, COMP_POS);
-        sprites.addComponent(id, Sprite(100, 100, 0, 0, 0, 0, 100, 100, "plant"));
+        sprites.addComponent(id, Sprite(100, 100, 0, 0, "plant"));
     }
 
 }

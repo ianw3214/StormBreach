@@ -170,10 +170,10 @@ void Renderer::drawTexture(Vec2i v, int width, int height, Vec2i src, int src_w,
 	float textures[8] = {
 		lerp(0.f, 1.f, static_cast<float>(src.x) / static_cast<float>(t_w)),
 		lerp(0.f, 1.f, static_cast<float>(src.y + src_h) / static_cast<float>(t_h)),
-		lerp(0.f, 1.f, static_cast<float>(src.x) / static_cast<float>(t_w)),
-		lerp(0.f, 1.f, static_cast<float>(src.y) / static_cast<float>(t_h)),
 		lerp(0.f, 1.f, static_cast<float>(src.x + src_w) / static_cast<float>(t_w)),
 		lerp(0.f, 1.f, static_cast<float>(src.y + src_h) / static_cast<float>(t_h)),
+		lerp(0.f, 1.f, static_cast<float>(src.x) / static_cast<float>(t_w)),
+		lerp(0.f, 1.f, static_cast<float>(src.y) / static_cast<float>(t_h)),
 		lerp(0.f, 1.f, static_cast<float>(src.x + src_w) / static_cast<float>(t_w)),
 		lerp(0.f, 1.f, static_cast<float>(src.y) / static_cast<float>(t_h))
 	};

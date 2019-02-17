@@ -46,9 +46,29 @@ void MapRenderSystem::update(float delta) {
             int y = (i / tilemap.width) * tilemap.tile_size + pos.y;
             if (tilemap.map[i] >= static_cast<int>(palette.size()) || tilemap.map[i] < 0) {
                 // Render random square if not valid
-                game->getEngineRef()->getRenderer()->drawRect({x, y}, tilemap.tile_size, tilemap.tile_size, {1.f, 0.f, 1.f});
+                DrawData data;
+                data.z = -1;
+                data.x = x;
+                data.y = y;
+                data.w = tilemap.tile_size;
+                data.h = tilemap.tile_size;
+                data.name = "INVALID";
+                game->drawTexture(data);
             } else {
-                game->getEngineRef()->getRenderer()->drawTexture({x, y}, tilemap.tile_size, tilemap.tile_size, palette[tilemap.map[i]].name);
+                DrawData data;
+                data.z = -1;
+                data.x = x;
+                data.y = y;
+                data.w = tilemap.tile_size;
+                data.h = tilemap.tile_size;
+                data.src_x = 0;
+                data.src_y = 0;
+                if (game->getEngineRef()->getResources()->getTexture(palette[tilemap.map[i]].name)) {
+                    data.src_w = game->getEngineRef()->getResources()->getTexture(palette[tilemap.map[i]].name)->getWidth();
+                    data.src_h = game->getEngineRef()->getResources()->getTexture(palette[tilemap.map[i]].name)->getHeight();
+                }
+                data.name = palette[tilemap.map[i]].name;
+                game->drawTexture(data);
             }
         }
     }
