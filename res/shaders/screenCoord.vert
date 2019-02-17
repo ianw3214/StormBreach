@@ -5,7 +5,6 @@ layout(location = 1) in vec2 texCoord;
 
 out vec2 vTexCoord;
 
-uniform float u_z_depth;
 uniform int u_screen_width;
 uniform int u_screen_height;
 
@@ -14,7 +13,7 @@ void main() {
     float y = mix(-1.0f, 1.0f, float(position.y) / float(u_screen_height));
 
     // Invert y so that the origin is on the top left corner
-    gl_Position = vec4(x, -y, u_z_depth, 1.0f);
+    gl_Position = vec4(x, -y, 0.f, 1.0f);
 
     // Pass on the texture coordinate
     vTexCoord = texCoord;

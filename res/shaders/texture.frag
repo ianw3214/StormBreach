@@ -2,7 +2,6 @@
 
 in vec2 vTexCoord;
 out vec4 colour;
-in float test;
 
 uniform sampler2D u_Texture;
 

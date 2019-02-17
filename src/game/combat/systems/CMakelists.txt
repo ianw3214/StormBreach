@@ -1,8 +1,12 @@
 target_sources(Game PRIVATE
     systems.hpp
     map_render.hpp
-    mouse_click.hpp)
+    mouse_click.hpp
+    energy.hpp
+    rain.hpp)
 
 target_sources(Game PRIVATE
     map_render.cpp
-    mouse_click.cpp)
+    mouse_click.cpp
+    energy.cpp
+    rain.cpp)

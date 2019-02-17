@@ -48,7 +48,7 @@ void Renderer::setScreenSize(int width, int height) {
 	textureShader->setUniform1i("u_screen_height", height);
 }
 
-void Renderer::drawLine(Vec2i v1, Vec2i v2, Colour colour) {
+void Renderer::drawLine(Vec2i v1, Vec2i v2, Colour colour, ShaderRef shader) {
 	int positions[4] = { v1.x, v1.y, v2.x, v2.y };
 	VertexArray va;
 	VertexBuffer vb(positions, sizeof(int) * 4);
@@ -59,16 +59,18 @@ void Renderer::drawLine(Vec2i v1, Vec2i v2, Colour colour) {
 	va.addBuffer(vb, layout);
 
 	// Set the uniform to draw the right colour
-	ShaderRef basicShader = engine->getResources()->getShader("basic");
-	basicShader->setUniform4f("u_colour", colour.x, colour.y, colour.z, 1.f);
-	drawLines(va, ib, *basicShader);
+	if (!shader) {
+		shader = engine->getResources()->getShader("basic");
+		shader->setUniform4f("u_colour", colour.x, colour.y, colour.z, 1.f);
+	}
+	drawLines(va, ib, *shader);
 }
 
-void Renderer::drawRect(Rect rect, Colour colour) {
-	drawRect(rect.pos, rect.w, rect.h, colour);
+void Renderer::drawRect(Rect rect, Colour colour, ShaderRef shader) {
+	drawRect(rect.pos, rect.w, rect.h, colour, shader);
 }
 
-void Renderer::drawRect(Vec2i v, int width, int height, Colour colour) {
+void Renderer::drawRect(Vec2i v, int width, int height, Colour colour, ShaderRef shader) {
 	int positions[8] = {
 		v.x, v.y,
 		v.x + width, v.y,
@@ -84,16 +86,18 @@ void Renderer::drawRect(Vec2i v, int width, int height, Colour colour) {
 	va.addBuffer(vb, layout);
 
 	// Issue the actual draw call
-	ShaderRef basicShader = engine->getResources()->getShader("basic");
-	basicShader->setUniform4f("u_colour", colour.x, colour.y, colour.z, 1.f);
-	drawTriangles(va, ib, *basicShader);
+	if (!shader) {
+		shader = engine->getResources()->getShader("basic");
+		shader->setUniform4f("u_colour", colour.x, colour.y, colour.z, 1.f);
+	}
+	drawTriangles(va, ib, *shader);
 }
 
-void Renderer::drawRectOutline(Rect rect, Colour colour) {
-	drawRectOutline(rect.pos, rect.w, rect.h, colour);
+void Renderer::drawRectOutline(Rect rect, Colour colour, ShaderRef shader) {
+	drawRectOutline(rect.pos, rect.w, rect.h, colour, shader);
 }
 
-void Renderer::drawRectOutline(Vec2i v, int width, int height, Colour colour) {
+void Renderer::drawRectOutline(Vec2i v, int width, int height, Colour colour, ShaderRef shader) {
 	int positions[8] = {
 		v.x, v.y,
 		v.x + width, v.y,
@@ -109,12 +113,14 @@ void Renderer::drawRectOutline(Vec2i v, int width, int height, Colour colour) {
 	va.addBuffer(vb, layout);
 
 	// Issue the actual draw call
-	ShaderRef basicShader = engine->getResources()->getShader("basic");
-	basicShader->setUniform4f("u_colour", colour.x, colour.y, colour.z, 1.f);
-	drawLineStrip(va, ib, *basicShader);
+	if (!shader) {
+		shader = engine->getResources()->getShader("basic");
+		shader->setUniform4f("u_colour", colour.x, colour.y, colour.z, 1.f);
+	}
+	drawLineStrip(va, ib, *shader);
 }
 
-void Renderer::drawTexture(Vec2i v, int width, int height, const Texture & texture) {
+void Renderer::drawTexture(Vec2i v, int width, int height, const Texture & texture, ShaderRef shader) {
 	int positions[8] = {
 		v.x, v.y,
 		v.x + width, v.y,
@@ -141,14 +147,16 @@ void Renderer::drawTexture(Vec2i v, int width, int height, const Texture & textu
 
 	// Bind the texture and draw
 	texture.bind();
-	ShaderRef textureShader = engine->getResources()->getShader("texture");
-	drawTriangles(va, ib, *textureShader);
+	if (!shader) {
+		shader = engine->getResources()->getShader("texture");
+	}
+	drawTriangles(va, ib, *shader);
 }
 
-void Renderer::drawTexture(Vec2i v1, int width, int height, const std::string & name) {
+void Renderer::drawTexture(Vec2i v1, int width, int height, const std::string & name, ShaderRef shader) {
 	TextureRef texture = engine->getResources()->getTexture(name);
 	if (texture) {
-		drawTexture(v1, width, height, *texture);
+		drawTexture(v1, width, height, *texture, shader);
 	} else {
 		drawRect(v1, width, height, Colour{1.f, 0.f, 1.f});
 	}
@@ -158,7 +166,7 @@ template<typename T>
 T lerp(const T& start, const T& end, float percentage) {
 	return start + static_cast<T>(static_cast<float>(end - start) * percentage);
 }
-void Renderer::drawTexture(Vec2i v, int width, int height, Vec2i src, int src_w, int src_h, const Texture& texture) {
+void Renderer::drawTexture(Vec2i v, int width, int height, Vec2i src, int src_w, int src_h, const Texture& texture, ShaderRef shader) {
 	int t_w = texture.getWidth();
 	int t_h = texture.getHeight();
 	int positions[8] = {
@@ -192,14 +200,16 @@ void Renderer::drawTexture(Vec2i v, int width, int height, Vec2i src, int src_w,
 
 	// Bind the texture and draw
 	texture.bind();
-	ShaderRef textureShader = engine->getResources()->getShader("texture");
-	drawTriangles(va, ib, *textureShader);
+	if (!shader) {
+		shader = engine->getResources()->getShader("texture");
+	}
+	drawTriangles(va, ib, *shader);
 }
 
-void Renderer::drawTexture(Vec2i v, int width, int height, Vec2i src, int src_w, int src_h, const std::string& name) {
+void Renderer::drawTexture(Vec2i v, int width, int height, Vec2i src, int src_w, int src_h, const std::string& name, ShaderRef shader) {
 	TextureRef texture = engine->getResources()->getTexture(name);
 	if (texture) {
-		drawTexture(v, width, height, src, src_w, src_h, *texture);
+		drawTexture(v, width, height, src, src_w, src_h, *texture, shader);
 	} else {
 		drawRect(v, width, height, Colour{1.f, 0.f, 1.f});
 	}
@@ -207,14 +217,17 @@ void Renderer::drawTexture(Vec2i v, int width, int height, Vec2i src, int src_w,
 
 
 void Renderer::drawTriangles(const VertexArray & va, const IndexBuffer & ib, const Shader & shader) {
+	shader.bind();
 	draw(va, ib, shader, GL_TRIANGLES);
 }
 
 void Renderer::drawLines(const VertexArray & va, const IndexBuffer & ib, const Shader & shader) {
+	shader.bind();
 	draw(va, ib, shader, GL_LINES);
 }
 
 void Renderer::drawLineStrip(const VertexArray & va, const IndexBuffer & ib, const Shader & shader) {
+	shader.bind();
 	draw(va, ib, shader, GL_LINE_STRIP);
 }
 

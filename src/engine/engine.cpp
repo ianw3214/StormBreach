@@ -3,6 +3,8 @@
 #include <GL/glew.h>
 #include <SDL2/SDL_opengl.h>
 
+#include <ctime>
+
 #include "resource.hpp"
 #include "renderer/renderer.hpp"
 #include "input/input.hpp"
@@ -44,6 +46,8 @@ Engine::Engine(EngineConfig config) : m_config(config), m_running(true) {
     m_renderer = new Renderer(this);
     m_input = new InputHandler();
     m_text = new TextRenderer("res/fonts/AllerDisplay.ttf", 32, Vec2i{config.window_width, config.window_height});
+
+    srand(static_cast<unsigned int>(time(nullptr)));
 }
 
 Engine::~Engine() {

@@ -50,6 +50,6 @@ void SpriteRenderSystem::update(float delta) {
         }
         data.name = sprite.name;
         data.method = DrawMethod::TEXTURE;
-        state->drawTexture(data);
+        state->draw(data);
     }
 }

@@ -19,15 +19,15 @@ public:
     void clear() const;
     void setScreenSize(int width, int height);
 
-    void drawLine(Vec2i v1, Vec2i v2, Colour colour = {1.f, 0.f, 0.f});
-	void drawRect(Rect rect, Colour colour = { 1.f, 0.f, 0.f });
-	void drawRect(Vec2i v, int width, int height, Colour colour = { 1.f, 0.f, 0.f });
-	void drawRectOutline(Rect rect, Colour colour = { 1.f, 0.f, 0.f });
-	void drawRectOutline(Vec2i v, int width, int height, Colour colour = { 1.f, 0.f, 0.f });
-	void drawTexture(Vec2i v1, int width, int height, const Texture& texture);
-	void drawTexture(Vec2i v1, int width, int height, const std::string& name);
-	void drawTexture(Vec2i v, int width, int height, Vec2i src, int src_w, int src_h ,const Texture& texture);
-	void drawTexture(Vec2i v, int width, int height, Vec2i src, int src_w, int src_h ,const std::string& name);
+    void drawLine(Vec2i v1, Vec2i v2, Colour colour = {1.f, 0.f, 0.f}, Reference<Shader> shader = nullptr);
+	void drawRect(Rect rect, Colour colour = { 1.f, 0.f, 0.f }, Reference<Shader> shader = nullptr);
+	void drawRect(Vec2i v, int width, int height, Colour colour = { 1.f, 0.f, 0.f }, Reference<Shader> shader = nullptr);
+	void drawRectOutline(Rect rect, Colour colour = { 1.f, 0.f, 0.f }, Reference<Shader> shader = nullptr);
+	void drawRectOutline(Vec2i v, int width, int height, Colour colour = { 1.f, 0.f, 0.f }, Reference<Shader> shader = nullptr);
+	void drawTexture(Vec2i v1, int width, int height, const Texture& texture, Reference<Shader> shader = nullptr);
+	void drawTexture(Vec2i v1, int width, int height, const std::string& name, Reference<Shader> shader = nullptr);
+	void drawTexture(Vec2i v, int width, int height, Vec2i src, int src_w, int src_h ,const Texture& texture, Reference<Shader> shader = nullptr);
+	void drawTexture(Vec2i v, int width, int height, Vec2i src, int src_w, int src_h ,const std::string& name, Reference<Shader> shader = nullptr);
 
 private:
     void drawTriangles(const VertexArray& va, const IndexBuffer& ib, const Shader& shader);

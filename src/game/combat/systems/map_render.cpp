@@ -54,7 +54,7 @@ void MapRenderSystem::update(float delta) {
                 data.h = tilemap.tile_size;
                 data.colour = Colour{1.f, 0.f, 1.f};
                 data.method = DrawMethod::SQUARE;
-                game->drawTexture(data);
+                game->draw(data);
             } else {
                 DrawData data;
                 data.z = -1;
@@ -70,7 +70,7 @@ void MapRenderSystem::update(float delta) {
                 }
                 data.name = palette[tilemap.map[i]].name;
                 data.method = DrawMethod::TEXTURE;
-                game->drawTexture(data);
+                game->draw(data);
             }
         }
     }

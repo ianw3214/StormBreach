@@ -18,7 +18,14 @@ void Game::init() {
 
     addSystem(new MapRenderSystem(this));
     addSystem(new MouseClickSystem(this));
+    addSystem(new EnergySystem(this));
+    addSystem(new RainSystem(this));
 
+    {   // Rain particles
+        unsigned int id = addEntity();
+        rain.addComponent(id, {100, std::vector<RainParticle>(100, RainParticle())});
+        entities.setEntityComponent(id, COMP_RAIN);
+    }
     {   // The tilemap entity
         unsigned int id = addEntity();
         TileMap tiles;
@@ -50,6 +57,10 @@ void Game::init() {
         entities.setEntityComponent(id, COMP_SPRITE);
         selectables.addComponent(id, Selectable{false, 0, 0, 100, 100});
         entities.setEntityComponent(id, COMP_SELECT);
+        generateEnergy.addComponent(id, GenerateEnergy{5});
+        entities.setEntityComponent(id, COMP_GEN_E);
+        storeEnergy.addComponent(id, StoreEnergy{0, 100, 0, 0});
+        entities.setEntityComponent(id, COMP_STORE_E);
     }
     {   // Starting factory
         unsigned int id = addEntity();
@@ -59,14 +70,8 @@ void Game::init() {
         entities.setEntityComponent(id, COMP_SPRITE);
         selectables.addComponent(id, Selectable{false, 0, 0, 100, 100});
         entities.setEntityComponent(id, COMP_SELECT);
+        // storeEnergy.addComponent(id, StoreEnergy{0, 100, 0, 0});
+        // entities.setEntityComponent(id, COMP_STORE_E);
     }
 
-}
-
-ComponentManager<TileMap>& Game::getTileMap() {
-    return tilemap;
-}
-
-ComponentManager<Selectable>& Game::getSelectables() {
-    return selectables;
 }

@@ -41,7 +41,7 @@ void MouseClickSystem::update(float delta) {
                 int m_x = game->getEngineRef()->getInput()->get_mouse_x();
                 int m_y = game->getEngineRef()->getInput()->get_mouse_y();
                 if (m_x > x && m_x < x + w && m_y > y && m_y < y + h) {
-                    selectable.selected = true;
+                    selectable.selected = !selectable.selected;
                     select_nothing = false;
                 }
             }
@@ -84,7 +84,7 @@ void MouseClickSystem::update(float delta) {
                 data.h = h;
                 data.colour = Colour{1.f, 1.f, 1.f};
                 data.method = DrawMethod::SQUARE_OUTLINE;
-                game->drawTexture(data);
+                game->draw(data);
             }
         }
         // No need to handle if there is no position component

@@ -7,26 +7,40 @@ constexpr int MAX_ENTITIES = 100;
 
 #include "memory/pointers.hpp"
 #include "util/vec.hpp"
+#include "resource.hpp"
 
 #include "ECS/ECS.hpp"
 
 enum class DrawMethod {
     TEXTURE,
+    LINE,
     SQUARE,
-    SQUARE_OUTLINE
+    SQUARE_OUTLINE,
+    TEXT
 };
 struct DrawData {
     int z;
+    // Shared drawing things
     int x;
     int y;
+    // Drawing for rectangle-ish things
     int w;
     int h;
+    // Texture drawing
     int src_x;
     int src_y;
     int src_w;
     int src_h;
-    std::string name;
+    std::string name;       // <-- Share name for texture name and text content
+    // Primitive drawing
     Colour colour;
+    // Line drawing
+    int x2;
+    int y2;
+    // Text drawing
+    float scale;
+    // Custom shader if desired
+    ShaderRef shader;
     DrawMethod method;
     DrawData() {}
     bool operator<(const DrawData& other) {
@@ -46,7 +60,7 @@ public:
     // Callback for subclasses to customize initialization
     virtual void init();
 
-    void drawTexture(DrawData& data);
+    void draw(DrawData& data);
 
     void onEvent(SDL_Event& e);
     void update(float delta);
