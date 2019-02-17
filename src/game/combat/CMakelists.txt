@@ -1,0 +1,8 @@
+target_sources(Game PRIVATE
+    components.hpp
+    game.hpp)
+
+target_sources(Game PRIVATE
+    game.cpp)
+
+add_subdirectory(systems)

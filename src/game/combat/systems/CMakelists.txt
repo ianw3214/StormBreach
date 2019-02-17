@@ -1,0 +1,6 @@
+target_sources(Game PRIVATE
+    systems.hpp
+    map_render.hpp)
+
+target_sources(Game PRIVATE
+    map_render.cpp)

@@ -1,0 +1,7 @@
+target_sources(Game PRIVATE 
+    vec.hpp
+    rect.hpp
+    bitarray.hpp)
+
+target_sources(Game PRIVATE
+    bitarray.cpp)

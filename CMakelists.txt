@@ -1,0 +1,17 @@
+cmake_minimum_required(VERSION 3.13.0 FATAL_ERROR)
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+
+project(Game)
+
+set(Game_VERSION_MAJOR 1)
+set(Game_VERSION_MINOR 0)
+
+add_executable(Game)
+target_compile_definitions(Game PRIVATE SDL_MAIN_HANDLED)
+target_link_libraries(Game Opengl32.lib)
+
+add_subdirectory(src)
+
+if(WIN32)
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SUBSYSTEM:Console")
+endif()

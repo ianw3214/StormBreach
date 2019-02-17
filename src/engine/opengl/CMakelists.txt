@@ -1,0 +1,7 @@
+target_sources(Game PRIVATE 
+    glwrapper.hpp
+    shader.hpp)
+
+target_sources(Game PRIVATE 
+    glwrapper.cpp
+    shader.cpp)

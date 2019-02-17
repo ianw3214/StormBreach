@@ -1,0 +1,10 @@
+target_sources(Game PRIVATE 
+    base_components.hpp
+    entity.hpp
+    component_manager.hpp
+    system.hpp)
+
+target_sources(Game PRIVATE
+    entity.cpp)
+
+add_subdirectory(base_systems)

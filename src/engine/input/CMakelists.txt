@@ -1,0 +1,5 @@
+target_sources(Game PRIVATE
+    input.hpp)
+
+target_sources(Game PRIVATE
+    input.cpp)

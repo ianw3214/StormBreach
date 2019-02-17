@@ -1,0 +1,7 @@
+target_sources(Game PRIVATE
+    camera_update.hpp
+    sprite_render.hpp)
+
+target_sources(Game PRIVATE
+    camera_update.cpp
+    sprite_render.cpp)

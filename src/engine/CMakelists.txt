@@ -1,0 +1,15 @@
+target_sources(Game PRIVATE 
+    engine.hpp
+    resource.hpp)
+
+target_sources(Game PRIVATE 
+    engine.cpp
+    resource.cpp)
+
+add_subdirectory(ECS)
+add_subdirectory(input)
+add_subdirectory(memory)
+add_subdirectory(opengl)
+add_subdirectory(renderer)
+add_subdirectory(state)
+add_subdirectory(util)
