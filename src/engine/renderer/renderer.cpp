@@ -48,7 +48,7 @@ void Renderer::setScreenSize(int width, int height) {
 	textureShader->setUniform1i("u_screen_height", height);
 }
 
-void Renderer::drawLine(Vec2i v1, Vec2i v2, Colour colour, ShaderRef shader) {
+void Renderer::drawLine(Vec2i v1, Vec2i v2, Colour colour, const std::string& shader) {
 	int positions[4] = { v1.x, v1.y, v2.x, v2.y };
 	VertexArray va;
 	VertexBuffer vb(positions, sizeof(int) * 4);
@@ -59,18 +59,21 @@ void Renderer::drawLine(Vec2i v1, Vec2i v2, Colour colour, ShaderRef shader) {
 	va.addBuffer(vb, layout);
 
 	// Set the uniform to draw the right colour
-	if (!shader) {
-		shader = engine->getResources()->getShader("basic");
-		shader->setUniform4f("u_colour", colour.x, colour.y, colour.z, 1.f);
+	if (shader.size() == 0) {
+		ShaderRef basicShader = engine->getResources()->getShader("basic");
+		basicShader->setUniform4f("u_colour", colour.x, colour.y, colour.z, 1.f);
+		drawLines(va, ib, *basicShader);
+	} else {
+		ShaderRef customShader = engine->getResources()->getShader(shader);
+		drawLines(va, ib, *customShader);
 	}
-	drawLines(va, ib, *shader);
 }
 
-void Renderer::drawRect(Rect rect, Colour colour, ShaderRef shader) {
+void Renderer::drawRect(Rect rect, Colour colour, const std::string& shader) {
 	drawRect(rect.pos, rect.w, rect.h, colour, shader);
 }
 
-void Renderer::drawRect(Vec2i v, int width, int height, Colour colour, ShaderRef shader) {
+void Renderer::drawRect(Vec2i v, int width, int height, Colour colour, const std::string& shader) {
 	int positions[8] = {
 		v.x, v.y,
 		v.x + width, v.y,
@@ -85,19 +88,22 @@ void Renderer::drawRect(Vec2i v, int width, int height, Colour colour, ShaderRef
 	layout.push_int(2);
 	va.addBuffer(vb, layout);
 
-	// Issue the actual draw call
-	if (!shader) {
-		shader = engine->getResources()->getShader("basic");
-		shader->setUniform4f("u_colour", colour.x, colour.y, colour.z, 1.f);
+	// Set the uniform to draw the right colour
+	if (shader.size() == 0) {
+		ShaderRef basicShader = engine->getResources()->getShader("basic");
+		basicShader->setUniform4f("u_colour", colour.x, colour.y, colour.z, 1.f);
+		drawTriangles(va, ib, *basicShader);
+	} else {
+		ShaderRef customShader = engine->getResources()->getShader(shader);
+		drawTriangles(va, ib, *customShader);
 	}
-	drawTriangles(va, ib, *shader);
 }
 
-void Renderer::drawRectOutline(Rect rect, Colour colour, ShaderRef shader) {
+void Renderer::drawRectOutline(Rect rect, Colour colour, const std::string& shader) {
 	drawRectOutline(rect.pos, rect.w, rect.h, colour, shader);
 }
 
-void Renderer::drawRectOutline(Vec2i v, int width, int height, Colour colour, ShaderRef shader) {
+void Renderer::drawRectOutline(Vec2i v, int width, int height, Colour colour, const std::string& shader) {
 	int positions[8] = {
 		v.x, v.y,
 		v.x + width, v.y,
@@ -112,15 +118,18 @@ void Renderer::drawRectOutline(Vec2i v, int width, int height, Colour colour, Sh
 	layout.push_int(2);
 	va.addBuffer(vb, layout);
 
-	// Issue the actual draw call
-	if (!shader) {
-		shader = engine->getResources()->getShader("basic");
-		shader->setUniform4f("u_colour", colour.x, colour.y, colour.z, 1.f);
+	// Set the uniform to draw the right colour
+	if (shader.size() == 0) {
+		ShaderRef basicShader = engine->getResources()->getShader("basic");
+		basicShader->setUniform4f("u_colour", colour.x, colour.y, colour.z, 1.f);
+		drawLineStrip(va, ib, *basicShader);
+	} else {
+		ShaderRef customShader = engine->getResources()->getShader(shader);
+		drawLineStrip(va, ib, *customShader);
 	}
-	drawLineStrip(va, ib, *shader);
 }
 
-void Renderer::drawTexture(Vec2i v, int width, int height, const Texture & texture, ShaderRef shader) {
+void Renderer::drawTexture(Vec2i v, int width, int height, const Texture & texture, const std::string& shader) {
 	int positions[8] = {
 		v.x, v.y,
 		v.x + width, v.y,
@@ -147,13 +156,16 @@ void Renderer::drawTexture(Vec2i v, int width, int height, const Texture & textu
 
 	// Bind the texture and draw
 	texture.bind();
-	if (!shader) {
-		shader = engine->getResources()->getShader("texture");
+	if (shader.size() == 0) {
+		ShaderRef basicShader = engine->getResources()->getShader("texture");
+		drawTriangles(va, ib, *basicShader);
+	} else {
+		ShaderRef customShader = engine->getResources()->getShader(shader);
+		drawTriangles(va, ib, *customShader);
 	}
-	drawTriangles(va, ib, *shader);
 }
 
-void Renderer::drawTexture(Vec2i v1, int width, int height, const std::string & name, ShaderRef shader) {
+void Renderer::drawTexture(Vec2i v1, int width, int height, const std::string & name, const std::string& shader) {
 	TextureRef texture = engine->getResources()->getTexture(name);
 	if (texture) {
 		drawTexture(v1, width, height, *texture, shader);
@@ -166,7 +178,7 @@ template<typename T>
 T lerp(const T& start, const T& end, float percentage) {
 	return start + static_cast<T>(static_cast<float>(end - start) * percentage);
 }
-void Renderer::drawTexture(Vec2i v, int width, int height, Vec2i src, int src_w, int src_h, const Texture& texture, ShaderRef shader) {
+void Renderer::drawTexture(Vec2i v, int width, int height, Vec2i src, int src_w, int src_h, const Texture& texture, const std::string& shader) {
 	int t_w = texture.getWidth();
 	int t_h = texture.getHeight();
 	int positions[8] = {
@@ -200,13 +212,16 @@ void Renderer::drawTexture(Vec2i v, int width, int height, Vec2i src, int src_w,
 
 	// Bind the texture and draw
 	texture.bind();
-	if (!shader) {
-		shader = engine->getResources()->getShader("texture");
+	if (shader.size() == 0) {
+		ShaderRef basicShader = engine->getResources()->getShader("texture");
+		drawTriangles(va, ib, *basicShader);
+	} else {
+		ShaderRef customShader = engine->getResources()->getShader(shader);
+		drawTriangles(va, ib, *customShader);
 	}
-	drawTriangles(va, ib, *shader);
 }
 
-void Renderer::drawTexture(Vec2i v, int width, int height, Vec2i src, int src_w, int src_h, const std::string& name, ShaderRef shader) {
+void Renderer::drawTexture(Vec2i v, int width, int height, Vec2i src, int src_w, int src_h, const std::string& name, const std::string& shader) {
 	TextureRef texture = engine->getResources()->getTexture(name);
 	if (texture) {
 		drawTexture(v, width, height, src, src_w, src_h, *texture, shader);
@@ -237,4 +252,8 @@ void Renderer::draw(const VertexArray & va, const IndexBuffer & ib, const Shader
 	ib.bind();
 
 	glDrawElements(type, ib.getCount(), GL_UNSIGNED_INT, nullptr);
+
+	ib.unbind();
+	va.unbind();
+	shader.unbind();
 }

@@ -20,6 +20,7 @@ void Game::init() {
     addSystem(new MouseClickSystem(this));
     addSystem(new EnergySystem(this));
     addSystem(new RainSystem(this));
+    addSystem(new LightSystem(this));
 
     {   // Rain particles
         unsigned int id = addEntity();

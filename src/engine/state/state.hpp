@@ -39,8 +39,8 @@ struct DrawData {
     int y2;
     // Text drawing
     float scale;
-    // Custom shader if desired
-    ShaderRef shader;
+    // Custom shader
+    std::string shader;
     DrawMethod method;
     DrawData() {}
     bool operator<(const DrawData& other) {

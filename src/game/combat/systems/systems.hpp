@@ -4,3 +4,4 @@
 #include "mouse_click.hpp"
 #include "energy.hpp"
 #include "rain.hpp"
+#include "light.hpp"

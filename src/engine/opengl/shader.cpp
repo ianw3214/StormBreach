@@ -5,6 +5,8 @@
 #include <fstream>
 #include <sstream>
 
+#include <iostream>
+
 Shader::Shader(const std::string& vertex, const std::string& fragment)
 	: vertexFilePath(vertex), fragmentFilePath(fragment), rendererID(0)
 {
@@ -28,11 +30,6 @@ void Shader::setUniform1i(const std::string & name, int value) {
 	glUniform1i(getUniformLocation(name), value);
 }
 
-void Shader::setUniform2i(const std::string& name, int v0, int v1) {
-	bind();
-	glUniform2i(getUniformLocation(name), v0, v1);
-}
-
 void Shader::setUniform1f(const std::string& name, float value) {
 	bind();
 	glUniform1f(getUniformLocation(name), value);
@@ -48,12 +45,13 @@ void Shader::setUniform4f(const std::string & name, float v0, float v1, float v2
 	glUniform4f(getUniformLocation(name), v0, v1, v2, v3);
 }
 
+#include <iostream>
 GLint Shader::getUniformLocation(const std::string & name) {
 	if (uniformLocationCache.find(name) != uniformLocationCache.end()) {
 		return uniformLocationCache[name];
 	}
-	unsigned int location = glGetUniformLocation(rendererID, name.c_str());
-	if (location < 0) {
+	GLuint location = glGetUniformLocation(rendererID, name.c_str());
+	if (location > 10000) {	// overflow probably
 		std::cout << "Warning: uniform '" << name << "' doesn't exist!" << std::endl;
 	}
 	uniformLocationCache[name] = location;
