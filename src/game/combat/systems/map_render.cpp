@@ -52,7 +52,8 @@ void MapRenderSystem::update(float delta) {
                 data.y = y;
                 data.w = tilemap.tile_size;
                 data.h = tilemap.tile_size;
-                data.name = "INVALID";
+                data.colour = Colour{1.f, 0.f, 1.f};
+                data.method = DrawMethod::SQUARE;
                 game->drawTexture(data);
             } else {
                 DrawData data;
@@ -68,6 +69,7 @@ void MapRenderSystem::update(float delta) {
                     data.src_h = game->getEngineRef()->getResources()->getTexture(palette[tilemap.map[i]].name)->getHeight();
                 }
                 data.name = palette[tilemap.map[i]].name;
+                data.method = DrawMethod::TEXTURE;
                 game->drawTexture(data);
             }
         }

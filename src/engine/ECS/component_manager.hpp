@@ -30,7 +30,7 @@ public:
         }
         // At this point, insert_index is the index that the new element should be inserted into
         if (insert_index > m_ids.size() - 1) {
-            m_ids.push_back(insert_index);
+            m_ids.push_back(id);
             m_components.push_back(data);
         } else {
             m_ids.insert(m_ids.begin() + insert_index, id);

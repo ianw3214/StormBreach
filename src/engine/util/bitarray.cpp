@@ -39,6 +39,7 @@ BitArray& BitArray::operator|=(const BitArray& other) {
     return *this;
 }
 
+#include <iostream>
 BitArray& BitArray::operator|=(unsigned int bit) {
     unsigned int size = (bit / BIT_PER_UINT) + (bit % BIT_PER_UINT == 0 ? 0 : 1);
     while(bits.size() < size) {

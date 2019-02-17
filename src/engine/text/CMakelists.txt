@@ -1,0 +1,7 @@
+target_sources(Game PRIVATE
+    font.hpp
+    text_renderer.hpp)
+
+target_sources(Game PRIVATE
+    font.cpp
+    text_renderer.cpp)

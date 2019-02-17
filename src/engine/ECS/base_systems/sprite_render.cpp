@@ -36,7 +36,6 @@ void SpriteRenderSystem::update(float delta) {
                 break;
             }
         }
-        // engine->getRenderer()->drawTexture({x, y}, sprite.w, sprite.h, sprite.name);
         DrawData data;
         data.z = pos.z;
         data.x = x;
@@ -45,9 +44,12 @@ void SpriteRenderSystem::update(float delta) {
         data.h = sprite.h;
         data.src_x = 0;
         data.src_y = 0;
-        data.src_w = engine->getResources()->getTexture(sprite.name)->getWidth();
-        data.src_h = engine->getResources()->getTexture(sprite.name)->getHeight();
+        if (engine->getResources()->getTexture(sprite.name)) {
+            data.src_w = engine->getResources()->getTexture(sprite.name)->getWidth();
+            data.src_h = engine->getResources()->getTexture(sprite.name)->getHeight();
+        }
         data.name = sprite.name;
+        data.method = DrawMethod::TEXTURE;
         state->drawTexture(data);
     }
 }

@@ -1,6 +1,8 @@
 target_sources(Game PRIVATE
     systems.hpp
-    map_render.hpp)
+    map_render.hpp
+    mouse_click.hpp)
 
 target_sources(Game PRIVATE
-    map_render.cpp)
+    map_render.cpp
+    mouse_click.cpp)

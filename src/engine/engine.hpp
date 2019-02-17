@@ -16,6 +16,7 @@ struct EngineConfig{
 class ResourceManager;
 class Renderer;
 class InputHandler;
+class TextRenderer;
 
 class Engine {
 
@@ -30,6 +31,7 @@ public:
     Reference<ResourceManager> getResources();
     Reference<Renderer> getRenderer();
     Reference<InputHandler> getInput();
+    Reference<TextRenderer> getText();
 
     void run();
 
@@ -46,4 +48,5 @@ private:
     Owned<ResourceManager> m_resources;
     Owned<Renderer> m_renderer;
     Owned<InputHandler> m_input;
+    Owned<TextRenderer> m_text;
 };

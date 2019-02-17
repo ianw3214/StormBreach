@@ -2,7 +2,7 @@
 
 #include <vector>
 
-constexpr unsigned int BIT_PER_UINT = static_cast<unsigned int>(sizeof(unsigned int));
+constexpr unsigned int BIT_PER_UINT = static_cast<unsigned int>(sizeof(unsigned int)) * 8;
 
 class BitArray {
 public:

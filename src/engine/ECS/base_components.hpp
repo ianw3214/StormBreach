@@ -10,9 +10,9 @@
 struct Position {
     int x;
     int y;
-    float z;
+    int z;
     bool camera_affect;
-    Position(int x=0, int y=0, bool c=false, float z = 0) : x(x), y(y), camera_affect(c), z(z) {}
+    Position(int x=0, int y=0, bool c=false, int z = 0) : x(x), y(y), camera_affect(c), z(z) {}
 };
 
 struct Sprite {

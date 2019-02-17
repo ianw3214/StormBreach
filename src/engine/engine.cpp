@@ -6,6 +6,7 @@
 #include "resource.hpp"
 #include "renderer/renderer.hpp"
 #include "input/input.hpp"
+#include "text/text_renderer.hpp"
 
 // Restrict the engine to 120 fps
 const float min_update_time = 1.f / 120.f;
@@ -42,6 +43,7 @@ Engine::Engine(EngineConfig config) : m_config(config), m_running(true) {
     m_resources = new ResourceManager();
     m_renderer = new Renderer(this);
     m_input = new InputHandler();
+    m_text = new TextRenderer("res/fonts/AllerDisplay.ttf", 32, Vec2i{config.window_width, config.window_height});
 }
 
 Engine::~Engine() {
@@ -68,6 +70,10 @@ Reference<Renderer> Engine::getRenderer() {
 
 Reference<InputHandler> Engine::getInput() {
     return Reference<InputHandler>(m_input);
+}
+
+Reference<TextRenderer> Engine::getText() {
+    return Reference<TextRenderer>(m_text);
 }
 
 void Engine::run() {

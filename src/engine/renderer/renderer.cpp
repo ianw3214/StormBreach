@@ -110,6 +110,7 @@ void Renderer::drawRectOutline(Vec2i v, int width, int height, Colour colour) {
 
 	// Issue the actual draw call
 	ShaderRef basicShader = engine->getResources()->getShader("basic");
+	basicShader->setUniform4f("u_colour", colour.x, colour.y, colour.z, 1.f);
 	drawLineStrip(va, ib, *basicShader);
 }
 

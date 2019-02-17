@@ -6,9 +6,15 @@ constexpr int MAX_ENTITIES = 100;
 #include <vector>
 
 #include "memory/pointers.hpp"
+#include "util/vec.hpp"
 
 #include "ECS/ECS.hpp"
 
+enum class DrawMethod {
+    TEXTURE,
+    SQUARE,
+    SQUARE_OUTLINE
+};
 struct DrawData {
     int z;
     int x;
@@ -20,9 +26,9 @@ struct DrawData {
     int src_w;
     int src_h;
     std::string name;
+    Colour colour;
+    DrawMethod method;
     DrawData() {}
-    DrawData(int z, int x, int y, int w, int h, int src_x, int src_y, int src_w, int src_h, const std::string& name) :
-        z(z), x(x), y(y), w(w), h(h), src_x(src_x), src_y(src_y), src_w(src_w), src_h(src_h), name(name) {}
     bool operator<(const DrawData& other) {
         return z < other.z;
     }

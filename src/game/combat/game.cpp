@@ -14,8 +14,10 @@ Game::~Game() {
 
 void Game::init() {
     engine->getResources()->loadTexture("plant", "res/units/power_plant.png");
+    engine->getResources()->loadTexture("factory", "res/units/factory.png");
 
     addSystem(new MapRenderSystem(this));
+    addSystem(new MouseClickSystem(this));
 
     {   // The tilemap entity
         unsigned int id = addEntity();
@@ -42,13 +44,29 @@ void Game::init() {
     }
     {   // Starting power plant
         unsigned int id = addEntity();
-        positions.addComponent(id, Position(200, 200, true, 0.5f));
+        positions.addComponent(id, Position(200, 200, true, 1));
         entities.setEntityComponent(id, COMP_POS);
         sprites.addComponent(id, Sprite(100, 100, 0, 0, "plant"));
+        entities.setEntityComponent(id, COMP_SPRITE);
+        selectables.addComponent(id, Selectable{false, 0, 0, 100, 100});
+        entities.setEntityComponent(id, COMP_SELECT);
+    }
+    {   // Starting factory
+        unsigned int id = addEntity();
+        positions.addComponent(id, Position(300, 300, true, 1));
+        entities.setEntityComponent(id, COMP_POS);
+        sprites.addComponent(id, Sprite(100, 100, 0, 0, "factory"));
+        entities.setEntityComponent(id, COMP_SPRITE);
+        selectables.addComponent(id, Selectable{false, 0, 0, 100, 100});
+        entities.setEntityComponent(id, COMP_SELECT);
     }
 
 }
 
 ComponentManager<TileMap>& Game::getTileMap() {
     return tilemap;
+}
+
+ComponentManager<Selectable>& Game::getSelectables() {
+    return selectables;
 }
