@@ -62,6 +62,8 @@ void Game::init() {
         entities.setEntityComponent(id, COMP_GEN_E);
         storeEnergy.addComponent(id, StoreEnergy{0, 100, 0, 0});
         entities.setEntityComponent(id, COMP_STORE_E);
+        light.addComponent(id, {150, 50, 50});
+        entities.setEntityComponent(id, COMP_LIGHT);
     }
     {   // Starting factory
         unsigned int id = addEntity();
@@ -73,6 +75,8 @@ void Game::init() {
         entities.setEntityComponent(id, COMP_SELECT);
         // storeEnergy.addComponent(id, StoreEnergy{0, 100, 0, 0});
         // entities.setEntityComponent(id, COMP_STORE_E);
+        light.addComponent(id, {150, 50, 50});
+        entities.setEntityComponent(id, COMP_LIGHT);
     }
 
 }

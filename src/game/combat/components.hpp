@@ -50,3 +50,9 @@ struct RainParticles {
     int max_particles;
     std::vector<RainParticle> particles;
 };
+
+struct Light {
+    int radius;
+    int x_offset;
+    int y_offset;
+};

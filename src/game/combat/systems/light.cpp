@@ -15,13 +15,39 @@ LightSystem::LightSystem(Reference<Game> ref) {
 
 void LightSystem::update(float delta) {
     ShaderRef shader = game->getEngineRef()->getResources()->loadShader("light", "res/shaders/light.vert", "res/shaders/light.frag");
-    for (unsigned int index = 0; index < game->getStoreEnergy().getIds().size(); index++) {
-        unsigned int id = game->getStoreEnergy().getIds()[index];
-        StoreEnergy& store = game->getStoreEnergy().getComponents()[index];
+    int counter = 0;
+    for (unsigned int index = 0; index < game->getLight().getIds().size(); index++) {
+        unsigned int id = game->getLight().getIds()[index];
+        Light& light = game->getLight().getComponents()[index];
+        if (game->getEntities().entityHasComponent(id, COMP_POS)) {
+            Position pos = *(game->getPositions().getComponent(id));
+            pos.x += light.x_offset;
+            pos.y += light.y_offset;
+            if (pos.camera_affect) {
+                for (unsigned int c_index = 0; c_index < game->getCamera().getIds().size(); c_index++) {
+                    unsigned int c_id = game->getCamera().getIds()[c_index];
+                    Camera& camera = game->getCamera().getComponents()[c_index];
+                    if (!(game->getEntities().entityHasComponent(c_id, COMP_POS))) {
+                        continue;
+                    }
+                    Position c_pos = *(game->getPositions().getComponent(c_id));
+                    pos.x -= c_pos.x;
+                    pos.y -= c_pos.y;
+                    break;
+                }
+            }
+            // Set the position uniform in the shader
+            std::string base = std::string("lights[") + std::to_string(counter) + std::string("]");
+            shader->setUniform1i(base + std::string(".x"), pos.x);
+            shader->setUniform1i(base + std::string(".y"), pos.y);
+            shader->setUniform1i(base + std::string(".r"), light.radius);
+            counter++;
+        }
     }
-    shader->setUniform1i("size", 10);
+    
+    shader->setUniform1i("size", counter);
     DrawData data;
-    data.z = 70;
+    data.z = 85;
     data.x = 0;
     data.y = 0;
     data.w = game->getEngineRef()->getConfig().window_width;

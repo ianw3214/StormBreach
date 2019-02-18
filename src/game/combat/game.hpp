@@ -18,6 +18,7 @@ public:
     ComponentManager<StoreEnergy>& getStoreEnergy() { return storeEnergy; }
     
     ComponentManager<RainParticles>& getRain() { return rain; }
+    ComponentManager<Light>& getLight() { return light; }
 
 private:
     // Additional components
@@ -27,5 +28,6 @@ private:
     ComponentManager<StoreEnergy> storeEnergy;
 
     ComponentManager<RainParticles> rain;
+    ComponentManager<Light> light;
 
 };

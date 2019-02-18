@@ -2,7 +2,7 @@
 
 layout(location = 0) in ivec2 position;
 
-out ivec2 vPosition;
+out vec2 vPosition;
 
 uniform int u_screen_width;
 uniform int u_screen_height;
@@ -14,5 +14,5 @@ void main() {
     // Invert y so that the origin is on the top left corner
     gl_Position = vec4(x, -y, 0.f, 1.0f);
 
-    // vPosition = position;
+    vPosition = vec2(float(position.x), float(position.y));
 }
