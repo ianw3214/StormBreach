@@ -14,8 +14,8 @@ State::~State() {
 }
 
 void State::base_init() {
-    addSystem(new SpriteRenderSystem(this));
     addSystem(new CameraUpdateSystem(this));
+    addSystem(new SpriteRenderSystem(this));
     // Call the customized callback
     init();
 }

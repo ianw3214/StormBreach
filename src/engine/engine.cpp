@@ -80,6 +80,7 @@ Reference<TextRenderer> Engine::getText() {
     return Reference<TextRenderer>(m_text);
 }
 
+#include <iostream>
 void Engine::run() {
     last_time = SDL_GetTicks();
     while(m_running) {

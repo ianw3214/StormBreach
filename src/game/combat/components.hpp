@@ -4,11 +4,12 @@
 #include "util/vec.hpp"
 
 #define COMP_TILEMAP    NUM_BASE_COMPS + 0
-#define COMP_SELECT     NUM_BASE_COMPS + 1
-#define COMP_GEN_E      NUM_BASE_COMPS + 2
-#define COMP_STORE_E    NUM_BASE_COMPS + 3
-#define COMP_RAIN       NUM_BASE_COMPS + 4
-#define COMP_LIGHT      NUM_BASE_COMPS + 5
+#define COMP_CLICK      NUM_BASE_COMPS + 1
+#define COMP_SELECT     NUM_BASE_COMPS + 2
+#define COMP_GEN_E      NUM_BASE_COMPS + 3
+#define COMP_STORE_E    NUM_BASE_COMPS + 4
+#define COMP_RAIN       NUM_BASE_COMPS + 5
+#define COMP_LIGHT      NUM_BASE_COMPS + 6
 
 struct TileMap {
     int width;
@@ -17,12 +18,15 @@ struct TileMap {
     std::vector<int> map;
 };
 
-struct Selectable {
-    bool selected;
+struct Clickable {
     int x_offset;
     int y_offset;
     int box_w;
     int box_h;
+};
+
+struct Selectable {
+    bool selected;
 };
 
 struct GenerateEnergy {

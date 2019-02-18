@@ -11,10 +11,14 @@ EnergySystem::EnergySystem(Reference<Game> ref) {
 }
 
 void EnergySystem::update(float delta) {
+    int curr_energy = 0;
+    int max_energy = 0;
     game->getEngineRef()->getText()->setAlignment(TextRenderer::hAlign::left, TextRenderer::vAlign::middle);
     for (unsigned int index = 0; index < game->getStoreEnergy().getIds().size(); index++) {
         unsigned int id = game->getStoreEnergy().getIds()[index];
         StoreEnergy& store = game->getStoreEnergy().getComponents()[index];
+        curr_energy += store.current_charge;
+        max_energy += store.max_charge;
         // If the component generates energy, check if we need to add more energy
         if (game->getEntities().entityHasComponent(id, COMP_GEN_E)) {
             GenerateEnergy& gen = *(game->getGenerateEnergy().getComponent(id));
@@ -53,4 +57,16 @@ void EnergySystem::update(float delta) {
             game->draw(data);
         }
     }
+    // Render the total energy
+    std::string text = std::string("ENERGY: ") + std::to_string(curr_energy);
+    text += std::string(" / ") + std::to_string(max_energy);
+    DrawData data;
+    data.z = 300;
+    data.x = 10;
+    data.y = 30;
+    data.colour = Colour{1.f, 1.f, 1.f};
+    data.name = text;
+    data.scale = 1.5f;
+    data.method = DrawMethod::TEXT;
+    game->draw(data);
 }

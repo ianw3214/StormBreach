@@ -6,3 +6,4 @@ target_sources(Game PRIVATE
     game.cpp)
 
 add_subdirectory(systems)
+add_subdirectory(ui)

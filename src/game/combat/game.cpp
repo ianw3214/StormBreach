@@ -4,7 +4,13 @@
 #include "resource.hpp"
 #include "systems/systems.hpp"
 
-Game::Game() {
+Game::Game() :
+    show_build_menu(false),
+    menu_x(0), menu_y(0),
+    building(false),
+    build_plant_button(0, 0, 180, 70),
+    build_factory_button(0, 0, 180, 70)
+{
 
 }
 
@@ -51,32 +57,44 @@ void Game::init() {
         entities.setEntityComponent(id, COMP_CAMERA);
     }
     {   // Starting power plant
-        unsigned int id = addEntity();
-        positions.addComponent(id, Position(200, 200, true, 1));
-        entities.setEntityComponent(id, COMP_POS);
-        sprites.addComponent(id, Sprite(100, 100, 0, 0, "plant"));
-        entities.setEntityComponent(id, COMP_SPRITE);
-        selectables.addComponent(id, Selectable{false, 0, 0, 100, 100});
-        entities.setEntityComponent(id, COMP_SELECT);
-        generateEnergy.addComponent(id, GenerateEnergy{5});
-        entities.setEntityComponent(id, COMP_GEN_E);
-        storeEnergy.addComponent(id, StoreEnergy{0, 100, 0, 0});
-        entities.setEntityComponent(id, COMP_STORE_E);
-        light.addComponent(id, {150, 50, 50});
-        entities.setEntityComponent(id, COMP_LIGHT);
+        addPlant(200, 200);
     }
     {   // Starting factory
-        unsigned int id = addEntity();
-        positions.addComponent(id, Position(300, 300, true, 1));
-        entities.setEntityComponent(id, COMP_POS);
-        sprites.addComponent(id, Sprite(100, 100, 0, 0, "factory"));
-        entities.setEntityComponent(id, COMP_SPRITE);
-        selectables.addComponent(id, Selectable{false, 0, 0, 100, 100});
-        entities.setEntityComponent(id, COMP_SELECT);
-        // storeEnergy.addComponent(id, StoreEnergy{0, 100, 0, 0});
-        // entities.setEntityComponent(id, COMP_STORE_E);
-        light.addComponent(id, {150, 50, 50});
-        entities.setEntityComponent(id, COMP_LIGHT);
+        addFactory(300, 300);
     }
 
+}
+
+void Game::addPlant(int x, int y) {
+    unsigned int id = addEntity();
+    positions.addComponent(id, Position(x, y, true, 1));
+    entities.setEntityComponent(id, COMP_POS);
+    sprites.addComponent(id, Sprite(100, 100, 0, 0, "plant"));
+    entities.setEntityComponent(id, COMP_SPRITE);
+    clickables.addComponent(id, Clickable{0, 0, 100, 100});
+    entities.setEntityComponent(id, COMP_CLICK);
+    selectables.addComponent(id, {});
+    entities.setEntityComponent(id, COMP_SELECT);
+    generateEnergy.addComponent(id, GenerateEnergy{3});
+    entities.setEntityComponent(id, COMP_GEN_E);
+    storeEnergy.addComponent(id, StoreEnergy{0, 100, 0, 0});
+    entities.setEntityComponent(id, COMP_STORE_E);
+    light.addComponent(id, {150, 50, 50});
+    entities.setEntityComponent(id, COMP_LIGHT);
+}
+
+void Game::addFactory(int x, int y) {
+    unsigned int id = addEntity();
+    positions.addComponent(id, Position(x, y, true, 1));
+    entities.setEntityComponent(id, COMP_POS);
+    sprites.addComponent(id, Sprite(100, 100, 0, 0, "factory"));
+    entities.setEntityComponent(id, COMP_SPRITE);
+    clickables.addComponent(id, Clickable{0, 0, 100, 100});
+    entities.setEntityComponent(id, COMP_CLICK);
+    selectables.addComponent(id, {});
+    entities.setEntityComponent(id, COMP_SELECT);
+    // storeEnergy.addComponent(id, StoreEnergy{0, 100, 0, 0});
+    // entities.setEntityComponent(id, COMP_STORE_E);
+    light.addComponent(id, {150, 50, 50});
+    entities.setEntityComponent(id, COMP_LIGHT);
 }
