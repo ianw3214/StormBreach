@@ -10,9 +10,7 @@ Game::Game() :
     building(false),
     build_plant_button(0, 0, 180, 70),
     build_factory_button(0, 0, 180, 70)
-{
-
-}
+{}
 
 Game::~Game() {
 
@@ -27,6 +25,8 @@ void Game::init() {
     addSystem(new EnergySystem(this));
     addSystem(new RainSystem(this));
     addSystem(new LightSystem(this));
+    addSystem(new EnemySystem(this));
+    addSystem(new HealthSystem(this));
 
     {   // Rain particles
         unsigned int id = addEntity();
@@ -81,6 +81,8 @@ void Game::addPlant(int x, int y) {
     entities.setEntityComponent(id, COMP_STORE_E);
     light.addComponent(id, {150, 50, 50});
     entities.setEntityComponent(id, COMP_LIGHT);
+    health.addComponent(id, {10, 10});
+    entities.setEntityComponent(id, COMP_HEALTH);
 }
 
 void Game::addFactory(int x, int y) {
@@ -97,4 +99,6 @@ void Game::addFactory(int x, int y) {
     // entities.setEntityComponent(id, COMP_STORE_E);
     light.addComponent(id, {150, 50, 50});
     entities.setEntityComponent(id, COMP_LIGHT);
+    health.addComponent(id, {10, 10});
+    entities.setEntityComponent(id, COMP_HEALTH);
 }

@@ -4,11 +4,15 @@ target_sources(Game PRIVATE
     mouse_click.hpp
     energy.hpp
     rain.hpp
-    light.hpp)
+    light.hpp
+    enemy.hpp
+    health.hpp)
 
 target_sources(Game PRIVATE
     map_render.cpp
     mouse_click.cpp
     energy.cpp
     rain.cpp
-    light.cpp)
+    light.cpp
+    enemy.cpp
+    health.cpp)

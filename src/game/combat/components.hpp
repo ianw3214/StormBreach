@@ -10,6 +10,7 @@
 #define COMP_STORE_E    NUM_BASE_COMPS + 4
 #define COMP_RAIN       NUM_BASE_COMPS + 5
 #define COMP_LIGHT      NUM_BASE_COMPS + 6
+#define COMP_HEALTH     NUM_BASE_COMPS + 7
 
 struct TileMap {
     int width;
@@ -59,4 +60,9 @@ struct Light {
     int radius;
     int x_offset;
     int y_offset;
+};
+
+struct Health {
+    int current;
+    int max;
 };
